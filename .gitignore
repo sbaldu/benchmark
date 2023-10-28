@@ -1,0 +1,5 @@
+# executables
+*.out
+
+# build directories
+*build
