@@ -2,6 +2,18 @@
 This project contains some basic tools for benchmarking C++ code.  
 These tools are thought to be simple to understand and to use
 
+## Installation
+The library can be installed very simply by using CMake, with the following commands:
+```shell
+cmake -B build ;
+cd build ;
+sudo make install
+```
+Alternatively it can by used by adding it to an existing project as a git submodule:
+```shell
+git submodule add https://github.com/sbaldu/benchmark.git path_to_module_folder
+```
+
 ## Usage
 Here is an example of the use of this library:
 ```C++
