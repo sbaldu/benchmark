@@ -11,7 +11,7 @@ Here is an example of the use of this library:
 
 #include "Bench.hpp"
 
-// function that doubles every element in a vector
+// function that calculates the sum of all the elements in a vector
 template <typename T>
 T accumulate(const std::vector<T>& vec) {
   T result{};
@@ -29,7 +29,7 @@ int main() {
   std::vector<int> v(N);
   std::ranges::for_each(v, [](auto& x) { x = std::rand(); });
 
-  // benchmark the double function
+  // benchmark the accumulate function
   const int n_rep{1000};
   sb::Bench<long long int> b(n_rep);
   b.benchmark(accumulate<int>, v);
