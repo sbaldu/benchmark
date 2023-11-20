@@ -67,7 +67,7 @@ namespace sb {
 
     template <typename P = nanoseconds>
     void print() {
-      std::cout << "Average execution time : " << std::chrono::duration_cast<P>(m_duration) << '\n';
+      std::cout << "Average execution time : " << std::chrono::duration_cast<P>(m_duration).count() << '\n';
     }
   };
 };  // namespace sb
