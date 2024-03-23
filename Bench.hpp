@@ -21,6 +21,32 @@ namespace sb {
   using std::chrono::nanoseconds;
   using std::chrono::seconds;
 
+  template <typename Period>
+  struct PeriodUnit {
+    // constexpr std::string only from C++20
+    inline static constexpr const char unit[] = "";
+  };
+
+  template <>
+  struct PeriodUnit<std::chrono::nanoseconds> {
+    inline static constexpr const char unit[] = "ns";
+  };
+
+  template <>
+  struct PeriodUnit<std::chrono::microseconds> {
+    inline static constexpr const char unit[] = "us";
+  };
+
+  template <>
+  struct PeriodUnit<std::chrono::milliseconds> {
+    inline static constexpr const char unit[] = "ms";
+  };
+
+  template <>
+  struct PeriodUnit<std::chrono::seconds> {
+    inline static constexpr const char unit[] = "s";
+  };
+
   template <typename T, typename Period = std::nano>
   class Timer {
   private:
@@ -30,10 +56,7 @@ namespace sb {
   public:
     Timer(Duration<T, Period>* duration)
         : m_start{std::chrono::high_resolution_clock::now()}, m_duration{duration} {}
-    ~Timer() {
-      auto finish{std::chrono::high_resolution_clock::now()};
-      *m_duration = finish - m_start;
-    }
+    ~Timer() { *m_duration = std::chrono::high_resolution_clock::now() - m_start; }
   };
 
   template <typename T, typename Period = std::nano>
@@ -68,7 +91,8 @@ namespace sb {
     template <typename P = nanoseconds>
     void print() {
       std::cout << "Average execution time : "
-                << std::chrono::duration_cast<P>(m_duration).count() << '\n';
+                << std::chrono::duration_cast<P>(m_duration).count() << ' '
+                << PeriodUnit<P>::unit << '\n';
     }
   };
 };  // namespace sb
