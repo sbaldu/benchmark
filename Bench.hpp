@@ -48,8 +48,8 @@ namespace sb {
     Bench(int rep) : m_rep{rep} {}
 
     template <typename F, typename... Tn>
-      requires std::is_invocable_v<F, Tn...>
-    Average benchmark(F func, Tn... args) {
+    std::enable_if_t<std::is_invocable_v<F, std::remove_reference_t<Tn>...>, Average>
+    benchmark(F func, Tn... args) {
       Duration<T, Period> duration{};
 
       for (int i{}; i < m_rep; ++i) {
@@ -67,7 +67,8 @@ namespace sb {
 
     template <typename P = nanoseconds>
     void print() {
-      std::cout << "Average execution time : " << std::chrono::duration_cast<P>(m_duration).count() << '\n';
+      std::cout << "Average execution time : "
+                << std::chrono::duration_cast<P>(m_duration).count() << '\n';
     }
   };
 };  // namespace sb
